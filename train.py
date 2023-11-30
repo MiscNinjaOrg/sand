@@ -52,7 +52,7 @@ class TrainingAguments(transformers.TrainingArguments):
     cache_dir: str = field(default=None)
     output_dir: str = field(default=None)
     optim: str = field(default="adamw_torch")
-    model_max_length: str = field(default=512)
+    model_max_length: int = field(default=512)
 
 def smart_tokenizer_and_embedding_resize(special_tokens_dict, tokenizer, model):
     num_new_tokens = tokenizer.add_special_tokens(special_tokens_dict)
@@ -122,6 +122,12 @@ class SupervisedDataset(Dataset):
         self.input_ids = data_dict["input_ids"]
         self.labels = data_dict["labels"]
 
+        def __len__(self):
+            return len(self.input_ids)
+
+        def __getitem__(self, i) -> Dict[str, torch.Tensor]:
+            return dict(input_ids=self.input_ids[i], labels=self.labels[i])
+
 @dataclass
 class DataCollatorForSupervisedDataset(object):
     tokenizer: transformers.PreTrainedTokenizer
@@ -137,12 +143,6 @@ class DataCollatorForSupervisedDataset(object):
             labels=labels,
             attention_mask=input_ids.ne(self.tokenizer.pad_token_id),
         )
-
-    def __len__(self):
-        return len(self.input_ids)
-
-    def __getitem__(self, i):
-        return dict(input_ids=self.input_ids[i], labels=self.labels[i])
 
 def train():
     parser = transformers.HfArgumentParser((ModelArguments, DataArguments, TrainingAguments))
