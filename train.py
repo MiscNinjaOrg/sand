@@ -122,11 +122,11 @@ class SupervisedDataset(Dataset):
         self.input_ids = data_dict["input_ids"]
         self.labels = data_dict["labels"]
 
-        def __len__(self):
-            return len(self.input_ids)
+    def __len__(self):
+        return len(self.input_ids)
 
-        def __getitem__(self, i) -> Dict[str, torch.Tensor]:
-            return dict(input_ids=self.input_ids[i], labels=self.labels[i])
+    def __getitem__(self, i) -> Dict[str, torch.Tensor]:
+        return dict(input_ids=self.input_ids[i], labels=self.labels[i])
 
 @dataclass
 class DataCollatorForSupervisedDataset(object):
