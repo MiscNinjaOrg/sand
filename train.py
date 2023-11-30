@@ -33,6 +33,7 @@ class DataArguments:
 @dataclass
 class TrainingAguments(transformers.TrainingArguments):
     cache_dir: str = field(default=None)
+    output_dir: str = field(default=None)
     optim: str = field(default="adamw_torch")
     model_max_length: str = field(default=512)
 
