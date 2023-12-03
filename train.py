@@ -49,6 +49,11 @@ class DataArguments:
 
 @dataclass
 class TrainingAguments(transformers.TrainingArguments):
+    learning_rate: float = field(default=5e-05)
+    per_device_train_batch_size: int = field(default=8)
+    per_device_eval_batch_size: int = field(default=8)
+    per_gpu_train_batch_size: int = field(default=None)
+    per_gpu_eval_batch_size: int = field(default=None)
     cache_dir: str = field(default=None)
     output_dir: str = field(default=None)
     optim: str = field(default="adamw_torch")
