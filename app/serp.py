@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 from langchain.utilities import GoogleSerperAPIWrapper
 from pydantic import BaseModel
 
-load_dotenv()
+load_dotenv(".env.local")
 
 class SerpResponse(BaseModel):
     title: str

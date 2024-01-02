@@ -10,7 +10,7 @@ import nest_asyncio
 from pydantic import BaseModel
 nest_asyncio.apply()
 
-load_dotenv()
+load_dotenv(".env.local")
 
 search_app = FastAPI()
 
