@@ -10,6 +10,10 @@ class SerpResponse(BaseModel):
     link: str
     snippet: str
 
+class ImageResponse(BaseModel):
+    imageURL: str
+    imageLink: str
+
 class Query(BaseModel):
     query: str
 
@@ -24,5 +28,29 @@ async def serp(
     results = []
     for r in res['organic']:
         results.append({'title': r['title'], 'link': r['link'], 'snippet': r['snippet']})
+
+    return results
+
+@serp_app.post("/news")
+async def news(
+    query: Query,
+) -> list[SerpResponse]:
+    serp = GoogleSerperAPIWrapper(type="news")
+    res = serp.results(query)    
+    results = []
+    for r in res['news']:
+        results.append({'title': r['title'], 'link': r['link'], 'snippet': r['snippet']})
+
+    return results
+
+@serp_app.post("/images")
+async def images(
+    query: Query,
+) -> list[ImageResponse]:
+    serp = GoogleSerperAPIWrapper(type="images")
+    res = serp.results(query)    
+    results = []
+    for r in res['images']:
+        results.append({'imageURL': r['imageUrl'], 'imageLink': r['link']})
 
     return results

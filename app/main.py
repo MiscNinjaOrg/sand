@@ -5,6 +5,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from search import search_app
 from serp import serp_app
 from chat import chat_app
+from embeddings import embeddings_app
 
 load_dotenv()
 
@@ -15,12 +16,7 @@ app.add_middleware(
 app.mount("/search", search_app)
 app.mount("/serp", serp_app)
 app.mount("/chat", chat_app)
-
-@app.get("/test")
-async def test():
-    return {
-        "response": "hi there"
-    }
+app.mount("/embeddings", embeddings_app)
 
 if __name__ == "__main__":
     import uvicorn
