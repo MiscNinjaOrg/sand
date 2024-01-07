@@ -13,7 +13,7 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 # 
 COPY ./app /code/app
 
-ADD .env.local .env
+# ADD .env.local .env
 
 WORKDIR /code/app
 
