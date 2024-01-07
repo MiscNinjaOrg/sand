@@ -1,0 +1,12 @@
+{
+    "AWSEBDockerrunVersion": "1",
+    "Image": {
+      "Name": "lordspline/miscninja-sand:latest"
+    },
+    "Ports": [
+      {
+        "ContainerPort": 8000,
+        "HostPort": 80
+      }
+    ]
+}

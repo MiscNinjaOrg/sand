@@ -26,7 +26,7 @@ class Message(BaseModel):
 class Query(BaseModel):
     messages: list[Message]
     vectorStore: str
-    pageURL: str | None
+    pageURL: str
 
 async def format_messages(messages: list[Message], vectorStore: str, pageURL: str):
 
@@ -36,16 +36,16 @@ async def format_messages(messages: list[Message], vectorStore: str, pageURL: st
         db = FAISS.deserialize_from_bytes(embeddings=OpenAIEmbeddings(), serialized=bytes.fromhex(vectorStore))
         query = messages[-1].content
         docs = db.similarity_search(query)
-        docs = docs[:min(3, len(docs))]
+        docs = docs[:min(5, len(docs))]
 
-        text = " ".join(doc.page_content for doc in docs)
+        text = " ".join([doc.page_content for doc in docs])
 
         out.append(SystemMessage(
             content="""
                 You are a kind, helpful assistant. The user is working on a page with the following content. Answer all their queries honestly and directly. If necessary and relevant, use the provided page content.
 
                 Page Content: {text}
-            """.format(text=text[:min(1000, len(text))])
+            """.format(text=text[:min(2000, len(text))])
         ))
 
     for message in messages:
@@ -74,7 +74,7 @@ async def streamer(model: str, messages: list):
     await run
 
 @chat_app.post("/{model}")
-async def search(
+async def chat(
     model: str,
     q: Query
 ):
