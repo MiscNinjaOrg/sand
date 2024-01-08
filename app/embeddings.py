@@ -27,7 +27,7 @@ async def embeddings(
     article = simple_json_from_html_string(pageContent, use_readability=True)
     articleText = "\n".join([t['text'] for t in article['plain_text']])
 
-    text_splitter = CharacterTextSplitter(separator=" ", chunk_size=400, chunk_overlap=100)
+    text_splitter = CharacterTextSplitter(separator=" ", chunk_size=600, chunk_overlap=100)
     articleTextSplit = text_splitter.create_documents([articleText])
     documents = text_splitter.split_documents(articleTextSplit)
     
