@@ -19,8 +19,8 @@ embeddings_app = FastAPI()
 class Query(BaseModel):
     pageContent: str
 
-@embeddings_app.post("/")
-async def serp(
+@embeddings_app.post("/embeddings")
+async def embeddings(
     query: Query,
 ) -> str:
     pageContent = query.pageContent
