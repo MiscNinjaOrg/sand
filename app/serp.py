@@ -19,7 +19,7 @@ class Query(BaseModel):
 
 serp_app = FastAPI()
 
-@serp_app.post("/")
+@serp_app.post("/serp")
 async def serp(
     query: Query,
 ) -> list[SerpResponse]:
