@@ -21,8 +21,9 @@ serp_app = FastAPI()
 
 @serp_app.post("/serp")
 async def serp(
-    query: Query,
+    q: Query,
 ) -> list[SerpResponse]:
+    query = q.query
     serp = GoogleSerperAPIWrapper()
     res = serp.results(query)    
     results = []
@@ -33,8 +34,9 @@ async def serp(
 
 @serp_app.post("/news")
 async def news(
-    query: Query,
+    q: Query,
 ) -> list[SerpResponse]:
+    query = q.query
     serp = GoogleSerperAPIWrapper(type="news")
     res = serp.results(query)    
     results = []
@@ -45,8 +47,9 @@ async def news(
 
 @serp_app.post("/images")
 async def images(
-    query: Query,
+    q: Query,
 ) -> list[ImageResponse]:
+    query = q.query
     serp = GoogleSerperAPIWrapper(type="images")
     res = serp.results(query)    
     results = []
